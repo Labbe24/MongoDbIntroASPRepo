@@ -9,21 +9,21 @@ namespace MongoDbIntroASP.Controllers
     [ApiController]
     public class ProductsController : ControllerBase
     {
-        private readonly ProductService _bookService;
+        private readonly ProductService _productService;
 
         public ProductsController(ProductService bookService)
         {
-            _bookService = bookService;
+            _productService = bookService;
         }
 
         [HttpGet]
         public ActionResult<List<ProductCatalog>> Get() =>
-            _bookService.Get();
+            _productService.Get();
 
         [HttpGet("{id:length(24)}", Name = "GetBook")]
         public ActionResult<ProductCatalog> Get(string id)
         {
-            var book = _bookService.Get(id);
+            var book = _productService.Get(id);
 
             if (book == null)
             {
@@ -36,7 +36,7 @@ namespace MongoDbIntroASP.Controllers
         [HttpPost]
         public ActionResult<ProductCatalog> Create(ProductCatalog book)
         {
-            _bookService.Create(book);
+            _productService.Create(book);
 
             return CreatedAtRoute("GetBook", new { id = book.Id.ToString() }, book);
         }
@@ -44,14 +44,14 @@ namespace MongoDbIntroASP.Controllers
         [HttpPut("{id:length(24)}")]
         public IActionResult Update(string id, ProductCatalog bookIn)
         {
-            var book = _bookService.Get(id);
+            var book = _productService.Get(id);
 
             if (book == null)
             {
                 return NotFound();
             }
 
-            _bookService.Update(id, bookIn);
+            _productService.Update(id, bookIn);
 
             return NoContent();
         }
@@ -59,14 +59,14 @@ namespace MongoDbIntroASP.Controllers
         [HttpDelete("{id:length(24)}")]
         public IActionResult Delete(string id)
         {
-            var book = _bookService.Get(id);
+            var book = _productService.Get(id);
 
             if (book == null)
             {
                 return NotFound();
             }
 
-            _bookService.Remove(book.Id);
+            _productService.Remove(book.Id);
 
             return NoContent();
         }
